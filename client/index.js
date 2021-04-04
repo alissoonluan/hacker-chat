@@ -1,6 +1,20 @@
+#!/usr/bin/env node
+
 /*
+    chmod +x index.js
+*/
+
+/*
+npm i -g @alissoonluan/hacker-chat-client
+npm unlink -g @alissoonluan/hacker-chat-client
+hacker-chat \
+    --username alissoonluan \
+    --room sala01
+./index.js \
+    --username alissoonluan \
+    --room sala01
 node index.js \
-    --username alissonluan \
+    --username alissoonluan \
     --room sala01 \
     --hostUri localhost
 */
@@ -17,13 +31,15 @@ const config = CliConfig.parseArguments(commands);
 const componentEmitter = new Events();
 const socketClient = new SocketClient(config);
 await socketClient.initialize();
-const eventManager = new EventManager({ componentEmitter, socketClient })
-const events = eventManager.getEvents()
-socketClient.attachEvent(events)
+const eventManager = new EventManager({ componentEmitter, socketClient });
+const events = eventManager.getEvents();
+socketClient.attachEvents(events);
+
 const data = {
-    roomId: config.room,
-    userName: config.username
-}
-eventManager.joinRoomAndWaitForMessages(data)
+  roomId: config.room,
+  userName: config.username,
+};
+eventManager.joinRoomAndWaitForMessages(data);
+
 const controller = new TerminalController();
 await controller.initializeTable(componentEmitter);

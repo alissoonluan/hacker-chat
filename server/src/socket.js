@@ -8,11 +8,9 @@ export default class SocketServer {
   }
 
   async sendMessage(socket, event, message) {
-    const data = JSON.stringify({ event,message })
-
-    socket.write(`${data}\n`)
+    const data = JSON.stringify({ event, message });
+    socket.write(`${data}\n`);
   }
-
   async initialize(eventEmitter) {
     const server = http.createServer((req, res) => {
       res.writeHead(200, { "Content-Type": "text/plain" });
